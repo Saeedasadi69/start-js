@@ -3,6 +3,8 @@ import { firstFunction2, defaultFunction } from './helpers';
 import logo from './logo.svg';
 
 import './App.css';
+
+
 import { useEffect } from 'react';
 
 function init() {
