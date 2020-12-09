@@ -5,9 +5,46 @@ import logo from './logo.svg';
 import './App.css';
 
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+
+function makeUser(id, name) {
+  return { id, name };
+}
+let usersList = [
+  makeUser(1, "saeed"),
+  makeUser(2, "ali"),
+  makeUser(3, "berni"),
+  makeUser(4, "madi")
+];
+
+const usersList2 = {
+  saeed: { id: 2 },
+  vahi: { id: 3 },
+  jahi: { id: 4 }
+}
+
 
 function init() {
+  console.log("users list: ", usersList);
+
+
+  try {
+    var d = 'doggies'; //d is function-scoped
+    throw 'my exception';
+  }
+  catch (err) {
+    console.log('error:', err); //err is block-scoped
+  }
+
+  console.log(d);
+  //console.log(err);
+
+  // error: my exception
+  // doggies
+  // Uncaught ReferenceError: err is not defined
+
+
+
   // console.log(firstFunction2(5))
   // console.log(defaultFunction(5))
 
@@ -66,7 +103,56 @@ function init() {
 
 function App() {
 
+  const inputRef = useRef();
+  const inputIdRef = useRef();
 
+  function getInputId() {
+    return inputIdRef.current.value;
+  }
+
+  function setInputText(text) {
+    return inputRef.current.value = text;
+  }
+
+
+  function create() {
+    //usersList.push(inputRef.current.value);
+    //let nextId = usersList.length;
+
+    usersList.push({ id: usersList.length + 1, name: inputRef.current.value });
+    console.log("users list: ", usersList)
+
+    // else {
+    //   usersList.push({ id: inputIdRef.current.value, name: inputRef.current.value });
+    //   console.log("users list: ", usersList)
+    // }
+    console.log('create', inputRef.current.value)
+  }
+
+  function read() {
+    setInputText(getInputId());
+    console.log('read', inputIdRef.current.value);
+    //let filterResult = usersList.filter(search => search === inputIdRef.current.value);
+    //let filterResult = usersList.filter(searchResult => searchResult.id.indexOf(1) > -1);
+    let filteredObject = usersList.find(function (item) { return item.id === 1 * getInputId() });
+    setInputText(filteredObject.name)
+    console.log(filteredObject);
+    // inputRef.current.value = (usersList.indexOf(usersList.id = inputIdRef.current.value)) ?  : "Not Found";
+
+  }
+
+  function update() {
+    console.log('update')
+
+    // map 
+  }
+
+  function remove() {
+    console.log('delete')
+    usersList = usersList.filter(function (item) { return item.id !== 1 * getInputId() });
+
+    console.log(usersList);
+  }
 
 
   useEffect(init, [])
@@ -88,7 +174,28 @@ function App() {
         >
           Learn React
         </a>
+        <label>
+          User name:
+          <input type="text" ref={inputRef} className="text-gray-500 text-xs" />
+        </label>
+        <button onClick={create} className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+          Create
+        </button>
+        <button onClick={read} className="bg-green-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+          Read
+        </button>
+        <button onClick={update} className="bg-yellow-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+          Update
+        </button>
+        <button onClick={remove} className="bg-red-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+          Delete
+        </button>
+        <label>
+          Id:
+          <input type="text" ref={inputIdRef} className="text-gray-500 text-xs" />
+        </label>
       </header>
+
     </div>
   );
 }
