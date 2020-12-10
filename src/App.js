@@ -28,7 +28,24 @@ function init() {
   console.log("users list: ", usersList);
 
 
-  try {
+  // ***** Hoisting *****
+  console.log(x) // function x () {...}
+  x(); // gday world
+
+  var x = 'hello world'
+
+  function x() {
+    console.log('gday world');
+  }
+
+  console.log(x) // hello world
+  // x(); // TypeError: x is not a function
+
+  // ***** Hoisting *****
+
+
+  // ****** try catch variable scope test
+  /*try {
     var d = 'doggies'; //d is function-scoped
     throw 'my exception';
   }
@@ -36,14 +53,33 @@ function init() {
     console.log('error:', err); //err is block-scoped
   }
 
-  console.log(d);
+  console.log(d); */
   //console.log(err);
 
   // error: my exception
   // doggies
   // Uncaught ReferenceError: err is not defined
+  // ****** try catch variable scope test
 
 
+  // ****** let variable scope test
+  /*
+  var happyDays = function (day) {
+    let c = 'cherries'; //c is block-scoped
+    let b = day;
+    function check(b) {
+      if (day === 'munny') {
+        console.log(c + "***");
+      }
+    }
+    check(b);
+    console.log(c + " biroon");
+    //console.log(c); //ReferenceError: c is not defined
+  }
+
+  happyDays('munny')
+  */
+  // ****** let variable scope test
 
   // console.log(firstFunction2(5))
   // console.log(defaultFunction(5))
